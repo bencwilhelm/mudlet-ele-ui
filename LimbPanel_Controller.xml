@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.001">
+	<ScriptPackage>
+		<Script isActive="yes" isFolder="no">
+			<name>LimbPanel</name>
+			<packageName></packageName>
+			<script>ui = ui or {}
+ui.controllers = ui.controllers or {}
+ui.controllers.limb_panel = ui.controllers.limb_panel or {}
+ui.controllers.limb_panel.state = ui.controllers.limb_panel.state or {}
+
+function ui.controllers.limb_panel:update_view()
+	ui.utils:table_merge(ui.controllers.limb_panel.state,gmcp.Char.Limbs)
+	ui.views.limb_panel:render(ui.controllers.limb_panel.state)
+end
+
+registerAnonymousEventHandler("gmcp.Char.Limbs", "ui.controllers.limb_panel:update_view()")
+
+--
+-- I use this function a bit for merging gmcp into my central hive, move to utils, or
+-- keep here if no use elsewhere
+--
+ui = ui or {}
+ui.utils = ui.utils or {}
+
+function ui.utils:table_merge(t1, t2)
+    for k,v in pairs(t2) do
+        if type(v) == "table" then
+            if type(t1[k] or false) == "table" then
+                ui.utils:table_merge(t1[k] or {}, t2[k] or {})
+            else
+                t1[k] = v
+            end
+        else
+            t1[k] = v
+        end
+    end
+    return t1
+end
+</script>
+			<eventHandlerList />
+		</Script>
+	</ScriptPackage>
+</MudletPackage>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.001">
+	<ScriptPackage>
+		<Script isActive="yes" isFolder="no">
+			<name>LimbPanel</name>
+			<packageName></packageName>
+			<script>ui = ui or {}
+ui.views = ui.views or {}
+
+ui.views.limb_panel = ui.views.limb_panel or {
+  refs = {}
+}
+
+function ui.views.limb_panel:create()
+  local limb_panel_cons = {
+    name = 'limb_panel__view',
+    x = '19%',
+    y = '7%',
+    width = '14%',
+    height = '25%'
+  }
+	  local limb_panel_style = [[
+		qproperty-alignment: 'AlignTop';
+    padding: ]] .. ui.views.styles.panel_padding .. [[;
+		border: ]] .. ui.views.styles.main_border .. [[;
+    background-color: black;
+    width: 100%;
+  ]]
+	
+  self.refs.container = Geyser.Label:new(limb_panel_cons)
+  self.refs.container:setStyleSheet(limb_panel_style)
+end
+
+function ui.views.limb_panel:render(state)
+  local body = "&lt;center&gt;Body Damage&lt;/center&gt;&lt;hr&gt;&lt;table width=\"100%\"&gt;"
+  for k,v in pairs(state) do
+	  body = body .. "&lt;tr&gt;&lt;td&gt;" .. k .. "&lt;/td&gt;&lt;td style=\"color:rgb(255, "..255-(math.floor(100-(v.hp/v.maxhp)*100)*2.5)..", "..255-(math.floor(100-(v.hp/v.maxhp)*100)*2.5)..");\"&gt;".. math.floor(100-(v.hp/v.maxhp)*100) .."%&lt;/td&gt;&lt;/tr&gt;"
+  end
+  self.refs.container:echo(body.."&lt;/table&gt;")
+end
+
+ui.views.limb_panel:create()
+ui.views.limb_panel:render(ui.controllers.limb_panel.state)</script>
+			<eventHandlerList />
+		</Script>
+	</ScriptPackage>
+</MudletPackage>
